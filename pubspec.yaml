@@ -32,8 +32,10 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.4
-  qrscan: ^0.3.3
-  qr_code_scanner: ^0.5.2
+  dio: ^4.0.4
+  font_awesome_flutter: ^9.2.0
+  flutter_barcode_scanner: ^2.0.0
+  
   
 
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'code_qr.dart';
+import 'search_etudiant.dart';
 
 
 void main() {
@@ -15,6 +17,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LoginPage(),
+      routes: {
+        '/code_qr': (context) => CodeQrPage(),
+        '/rechercher_etudiant': (context) => SearcheEtudiant(),
+        '/login' : (context) => LoginPage()
+      },
     );
   }
 }

@@ -1,71 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:http/http.dart' as http;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class DashboardPage extends StatefulWidget {
-  @override
-  _DashboardPageState createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
-  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
-  String? qrCode;
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        qrCode = scanData.code;
-        print('QR Code: $qrCode');
-        updateStudentStatus();
-      });
-    });
-  }
-
-  void updateStudentStatus() async {
-    String apiUrl = 'http://localhost:8080/etudiant/id/$qrCode'; // URL avec l'ID du code QR
-
-    try {
-      var response = await http.put(
-        Uri.parse(apiUrl),
-        body: {
-          'status': 'present' // Remplacez 'nouveau_statut' par la valeur de statut que vous souhaitez mettre à jour
-        },
-      );
-
-      if (response.statusCode == 200) {
-        print('Statut de l\'étudiant mis à jour avec succès !');
-      } else {
-        print('Erreur lors de la mise à jour du statut de l\'étudiant. Code de statut : ${response.statusCode}');
-      }
-    } catch (error) {
-      print('Erreur lors de la mise à jour du statut de l\'étudiant : $error');
-    }
-  }
-
+class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pushNamed(context, '/code_qr');
+              },
+              icon: FaIcon(FontAwesomeIcons.qrcode), 
+              label: Text('Scanner Code QR'),
+              backgroundColor: Colors.blue,
             ),
-          ),
-          Text('QR Code: $qrCode'),
-        ],
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pushNamed(context, '/rechercher_etudiant');
+              },
+              icon: FaIcon(FontAwesomeIcons.search),
+              label: Text('Rechercher Etudiant'),
+              backgroundColor: Colors.blue,
+            ),
+            FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+              },
+              icon: FaIcon(FontAwesomeIcons.signOutAlt),
+              label: Text('Déconnexion'),
+              backgroundColor: Colors.blue,
+            )
+          ],
+        ),
       ),
     );
   }
