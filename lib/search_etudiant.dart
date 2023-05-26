@@ -45,7 +45,7 @@ class StudentService {
   StudentService() : dio = Dio();
 
   Future<Student> fetchStudentByCne(String cne) async {
-    final response = await dio.get('http://localhost:8080/etudiant/cne/$cne');
+    final response = await dio.get('https://d970-41-141-220-87.ngrok-free.app/etudiant/cne/$cne');
     if (response.statusCode == 200) {
       final data = response.data;
       return Student(
@@ -68,7 +68,7 @@ class StudentService {
 
   Future<void> updateStudentStatus(int studentId) async {
     final response = await dio.put(
-      'http://localhost:8080/etudiant/id/$studentId',
+      'https://d970-41-141-220-87.ngrok-free.app/etudiant/id/$studentId',
       data: {'status': 'présent'},
     );
     if (response.statusCode != 200) {

@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final user = User(email: _email, password: _password);
-      final response = await http.post(Uri.parse('http://localhost:8080/login'),
+      final response = await http.post(Uri.parse('https://d970-41-141-220-87.ngrok-free.app/login'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(user.toJson()));
       if (response.statusCode == 200) {
